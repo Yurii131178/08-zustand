@@ -135,7 +135,7 @@
 
 'use client';
 import { useState, useEffect } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { createNote } from '@/lib/api';
 import type { NewNoteData } from '@/types/note';
