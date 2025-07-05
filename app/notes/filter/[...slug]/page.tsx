@@ -7,7 +7,6 @@ interface NotesProps {
   params: Promise<{ slug: string[] }>;
 }
 
-// Функція для генерації метаданих сторінки на основі фільтру
 export async function generateMetadata({
   params,
 }: {
@@ -45,7 +44,6 @@ export async function generateMetadata({
   };
 }
 
-// Сторінка з нотатками, фільтрованими за тегом
 const Notes = async ({ params }: NotesProps) => {
   const { slug } = await params;
   const tag =
