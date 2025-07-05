@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import styles from './loading.module.css';
 
 const Loading = () => {
