@@ -1,0 +1,93 @@
+.app {
+  width: 90%;
+  max-width: 1280px;
+  margin: 0px auto;
+  padding: 0 16px 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar {
+  margin-bottom: 16px;
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.searchBoxContainer {
+  order: 1;
+}
+
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  order: 2;
+}
+
+.createNoteButton {
+  padding: 6px 12px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #0d6efd;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+  order: 3;
+}
+
+.createNoteButton:hover {
+  background-color: #0b5ed7;
+}
+
+.button {
+  padding: 6px 12px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #0d6efd;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background-color: #0b5ed7;
+}
+
+@media (max-width: 768px) {
+  .toolbar {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .searchBoxContainer {
+    width: 100%;
+    order: 1;
+    text-align: center;
+  }
+
+  .paginationContainer {
+    width: 100%;
+    order: 2;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  .createNoteButton {
+    width: 100%;
+    order: 3;
+    margin-top: 10px;
+  }
+}
