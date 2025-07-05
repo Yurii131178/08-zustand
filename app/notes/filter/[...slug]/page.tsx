@@ -7,6 +7,7 @@ interface NotesProps {
   params: Promise<{ slug: string[] }>;
 }
 
+// Функція для генерації метаданих сторінки на основі фільтру
 export async function generateMetadata({
   params,
 }: {
@@ -34,16 +35,17 @@ export async function generateMetadata({
       url,
       images: [
         {
-          url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
+          url: ogImage,
           width: 1200,
           height: 630,
-          alt: 'NoteHub - Note Management App Logo',
+          alt: title,
         },
       ],
     },
   };
 }
 
+// Сторінка з нотатками, фільтрованими за тегом
 const Notes = async ({ params }: NotesProps) => {
   const { slug } = await params;
   const tag =
