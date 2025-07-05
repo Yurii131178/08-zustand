@@ -133,7 +133,7 @@
 
 ///////////// оновлення без Formik ////////////////////
 
-('use client');
+'use client';
 import { useState, useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
