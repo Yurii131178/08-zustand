@@ -4,6 +4,19 @@ import './globals.css';
 import Footer from '@/components/Footer/Footer';
 import Header from '@/components/Header/Header';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
+import { Roboto } from 'next/font/google';
+
+interface RootLayoutProps {
+  children: React.ReactNode;
+  modal: React.ReactNode;
+}
+
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-roboto',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'NoteHub',
@@ -28,15 +41,10 @@ export const metadata: Metadata = {
   },
 };
 
-interface RootLayoutProps {
-  children: React.ReactNode;
-  modal: React.ReactNode;
-}
-
 export default function RootLayout({ children, modal }: RootLayoutProps) {
   return (
     <html lang="en">
-      <body>
+      <body className={roboto.variable}>
         <TanStackProvider>
           <Header />
           {children}
