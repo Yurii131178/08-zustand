@@ -13,7 +13,7 @@ const initialDraft: NewNoteData = {
   tag: 'Todo',
 };
 
-export const useNoteStore = create<NoteStore>()((set) => ({
+export const useNoteDraftStore = create<NoteStore>()((set) => ({
   draft: initialDraft,
 
   setDraft: (note) =>
