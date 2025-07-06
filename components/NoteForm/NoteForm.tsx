@@ -1,29 +1,17 @@
 'use client';
-import { useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createNote } from '@/lib/api';
 import type { NewNoteData } from '@/types/note';
 import css from './NoteForm.module.css';
+// інтегруємо Цустандик-store для драфту
+import { useNoteDraftStore } from '@/lib/store/noteStore';
 
 const NoteForm = () => {
-  const [formData, setFormData] = useState<NewNoteData>({
-    title: '',
-    content: '',
-    tag: 'Todo',
-  });
-  const [status, setStatus] = useState('');
+  const { draft, setDraft, clearDraft } = useNoteDraftStore();
   const queryClient = useQueryClient();
   const router = useRouter();
-
-  useEffect(() => {
-    const savedDraft = localStorage.getItem('noteDraft');
-    if (savedDraft) {
-      setFormData(JSON.parse(savedDraft));
-      setStatus('Чернетка завантажена');
-    }
-  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -31,13 +19,7 @@ const NoteForm = () => {
     >,
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const clearDraft = () => {
-    localStorage.removeItem('noteDraft');
-    setFormData({ title: '', content: '', tag: 'Todo' });
-    setStatus('Чернетка очищена');
+    setDraft({ [name]: value });
   };
 
   const handleSubmit = async (formData: FormData) => {
@@ -54,7 +36,6 @@ const NoteForm = () => {
     await createNote(noteData);
     queryClient.invalidateQueries({ queryKey: ['notes'] });
     clearDraft();
-    setStatus('Note created');
     router.push('/notes/filter/All'); // Редирект на сторінку з нотатками
   };
 
@@ -68,7 +49,7 @@ const NoteForm = () => {
           id="title"
           type="text"
           name="title"
-          value={formData.title}
+          value={draft.title}
           onChange={handleChange}
           className={css.input}
           required
@@ -82,7 +63,7 @@ const NoteForm = () => {
           id="content"
           name="content"
           rows={8}
-          value={formData.content}
+          value={draft.content}
           onChange={handleChange}
           className={css.textarea}
           required
@@ -95,7 +76,7 @@ const NoteForm = () => {
         <select
           id="tag"
           name="tag"
-          value={formData.tag}
+          value={draft.tag}
           onChange={handleChange}
           className={css.select}
           required
@@ -115,7 +96,6 @@ const NoteForm = () => {
           Create Note
         </button>
       </div>
-      {status && <p className={css.status}>{status}</p>}
     </form>
   );
 };
