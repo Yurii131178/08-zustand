@@ -24,7 +24,6 @@ export default function NotesClient({
   const [inputValue, setInputValue] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  // FETCHING & SEARCHING NOTES
   const [debouncedInputValue] = useDebounce(inputValue, 500);
 
   const notes = useQuery({
@@ -44,14 +43,11 @@ export default function NotesClient({
 
   return (
     <div className={css.app}>
-      {/* -------HEADER ELEMENTS (TOOLBAR)--------- */}
       <div className={css.toolbar}>
-        {/* Контейнер для SearchBox (зліва) */}
         <div className={css.searchBoxContainer}>
           <SearchBox value={inputValue} onSearch={handleSearchChange} />
         </div>
 
-        {/* Контейнер для пагінації (по центру) */}
         <div className={css.paginationContainer}>
           {totalPages > 0 && (
             <Pagination
@@ -62,13 +58,11 @@ export default function NotesClient({
           )}
         </div>
 
-        {/* Кнопка "Create note +" (справа) */}
         <Link href="/notes/action/create" className={css.createNoteButton}>
           Create note +
         </Link>
       </div>
 
-      {/* -------NOTELIST--------- */}
       <NoteList notes={notes.data?.notes ?? []} />
     </div>
   );
