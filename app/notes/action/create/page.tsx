@@ -1,10 +1,10 @@
 import NoteForm from '@/components/NoteForm/NoteForm';
 import styles from './CreateNote.module.css';
+import { Metadata } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Create Note - My Notes App',
   description: 'Create a new note in your personal notes application.',
-  url: 'https://your-app-domain.com/notes/action/create',
   openGraph: {
     title: 'Create a New Note',
     description: 'Start writing a new note in our intuitive notes app.',

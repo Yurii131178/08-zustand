@@ -1,17 +1,27 @@
 'use client';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { createNote } from '@/lib/api';
 import type { NewNoteData } from '@/types/note';
-import css from './NoteForm.module.css';
-// інтегруємо Цустандик-store для драфту
 import { useNoteDraftStore } from '@/lib/store/noteStore';
+import css from './NoteForm.module.css';
 
 const NoteForm = () => {
   const { draft, setDraft, clearDraft } = useNoteDraftStore();
   const queryClient = useQueryClient();
   const router = useRouter();
+
+  const mutation = useMutation({
+    mutationFn: createNote,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['notes'] });
+      clearDraft();
+      router.push('/notes/filter/All');
+    },
+    onError: (error) => {
+      console.error('Failed to create note:', error);
+    },
+  });
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -33,10 +43,7 @@ const NoteForm = () => {
         | 'Meeting'
         | 'Shopping',
     };
-    await createNote(noteData);
-    queryClient.invalidateQueries({ queryKey: ['notes'] });
-    clearDraft();
-    router.push('/notes/filter/All'); // Редирект на сторінку з нотатками
+    mutation.mutate(noteData);
   };
 
   return (
@@ -89,9 +96,13 @@ const NoteForm = () => {
         </select>
       </div>
       <div className={css.buttonGroup}>
-        <Link href="/notes/filter/All" className={css.cancelBtn}>
+        <button
+          type="button"
+          className={css.cancelBtn}
+          onClick={() => router.back()}
+        >
           Cancel
-        </Link>
+        </button>
         <button type="submit" className={css.submitBtn}>
           Create Note
         </button>
