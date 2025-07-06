@@ -1,18 +1,34 @@
 import { Metadata } from 'next';
-import { Tag } from '@/types/note';
+import { Tag } from '@/types/note'; // Оригінальний тип Tag для нотаток
 import { fetchNotes } from '@/lib/api';
 import NotesClient from './Notes.client';
 
+type FilterTag = Tag | 'All';
 interface NotesProps {
-  params: Promise<{ slug: string[] }>;
+  params: Promise<{ slug: string[] | undefined }>;
 }
 
 export async function generateMetadata({
   params,
 }: NotesProps): Promise<Metadata> {
-  const { slug } = await params; // Await the Promise to get the slug
-  const tag = slug.length > 0 && slug[0] !== 'All' ? (slug[0] as Tag) : 'All';
+  const resolvedParams = await params;
+  let slug: string[] = [];
 
+  if (Array.isArray(resolvedParams.slug)) {
+    slug = resolvedParams.slug;
+  } else {
+    slug = ['All'];
+  }
+
+  const rawTag = slug.length > 0 ? slug[0] : 'All';
+
+  let tag: FilterTag;
+
+  if (rawTag === 'All') {
+    tag = 'All';
+  } else {
+    tag = rawTag as Tag;
+  }
   const title = tag === 'All' ? 'All Notes' : `Notes tagged "${tag}"`;
   const description =
     tag === 'All'
@@ -43,9 +59,25 @@ export async function generateMetadata({
 }
 
 const Notes = async ({ params }: NotesProps) => {
-  const { slug } = await params;
-  const tag =
-    slug.length > 0 && slug[0] !== 'All' ? (slug[0] as Tag) : undefined;
+  const resolvedParams = await params;
+  let slug: string[] = [];
+
+  if (Array.isArray(resolvedParams.slug)) {
+    slug = resolvedParams.slug;
+  } else {
+    slug = ['All'];
+  }
+
+  const rawTag = slug.length > 0 ? slug[0] : 'All';
+
+  let tag: Tag | undefined;
+
+  if (rawTag === 'All') {
+    tag = undefined;
+  } else {
+    tag = rawTag as Tag;
+  }
+
   const initialNotesData = await fetchNotes('', 1, tag);
 
   return <NotesClient initialNotesData={initialNotesData} tag={tag} />;

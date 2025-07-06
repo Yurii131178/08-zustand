@@ -28,13 +28,13 @@ export const metadata: Metadata = {
     title: 'NoteHub - Your Ultimate Note-Taking Assistant',
     description:
       'Manage your notes effortlessly with NoteHub. Create, organize by categories, and enhance productivity',
-    url: '', // після деплою додам сюди посилання типу 'https://yurii131178.github.io/0000000000000000000/'
+    url: 'https://08-zustand-theta.vercel.app/notes/action/create',
     images: [
       {
         url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
         alt: 'NoteHub - Note Management App Logo',
-        width: '1200',
-        height: '630',
+        width: 1200,
+        height: 630,
       },
     ],
     type: 'article',
